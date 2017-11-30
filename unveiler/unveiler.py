@@ -99,25 +99,26 @@ def mnist_model():
 
 if __name__ == "__main__":
     
-#    keras_model = load_model('model.h5', {'fmeasure': fmeasure, 'recall': recall, 'precision': precision})
-#    with h5py.File('2017-11-19-04-18-11_2_3_100.h5', 'r') as f:
-#        frames = f['frames'][:]
-#        labels = f['labels'][:]
+    test_mnist = False
     
-    keras_model, frames, labels = mnist_model()
+    if test_mnist:
+        keras_model, frames, labels = mnist_model()
+    else:
+        keras_model = load_model('test_model.h5', 
+                                 {'fmeasure': fmeasure, 'recall': recall, 'precision': precision})
+    with h5py.File('test_data.h5', 'r') as f:
+        frames = f['frames'][:]
+        labels = f['labels'][:]
+    
     model = Model(keras_model)
  
     start, offset = 0, 1
     for frame in frames[start:start+offset]:
-        frame = frames[0]
-        keras_pred = keras_model.predict(np.expand_dims(frame, axis=0))
-        np_pred = model.predict(frame)
-        assert(np.allclose(keras_pred, np_pred, atol=1e-5, rtol=1e-5))
-    
-#        model.deconvolve()
-        model.deconvolve(index=1)
-#        model.deconvolve(index=2)
-#        model.deconvolve(index=3)
-#        model.deconvolve(index=4)
-#        model.visualize(until=3, n_cols=8)
+#        frame = frames[0]
+#        np_pred = model.predict(frame)
+#        keras_pred = keras_model.predict(np.expand_dims(frame, axis=0))
+#        assert(np.allclose(keras_pred, np_pred, atol=1e-5, rtol=1e-5))
+        
+        model.deconvolve(frame, index=1)
+        model.visualize(until=3, n_cols=8)
     

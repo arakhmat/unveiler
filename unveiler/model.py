@@ -25,15 +25,17 @@ class Model:
         return x
     
     # Deconvolve convolutional layer at index I
-    def deconvolve(self, index=0):
+    def deconvolve(self, frame=None, index=0):
+        if frame is not None:
+            self.predict(frame)
         
         if index <= -1 or index >= len(self.conv_layers_indices):
-            raise ValueError('Index %d is out of bounds.\n Note that ')
+            raise ValueError('Index %d is out of bounds.\n')
         
         index = self.conv_layers_indices[index]
         
         starting_layer = self.deconvolvable_layers[index]
-        consequent_layers = reversed(self.deconvolvable_layers[:index])
+        consequent_layers = list(reversed(self.deconvolvable_layers[:index]))
         w = starting_layer.w.copy()
         for i in range(starting_layer.w.shape[2]):
             for j in range(starting_layer.w.shape[3]):
@@ -51,7 +53,7 @@ class Model:
     # Visualize all the activations upto layer N
     def visualize(self, frame=None, until=1, n_cols=3):
         if frame is not None:
-            _ = self.predict(frame, until)
+            self.predict(frame, until)
         for layer in self.layers[:until]:
             plot3D(layer.output, n_cols)
         

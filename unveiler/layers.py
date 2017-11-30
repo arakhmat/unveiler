@@ -67,6 +67,7 @@ class Conv2D(Layer):
         if w is None: w = self.w
         
         x = self.activation(x)
+        self.deconvolutional_output.fill(0)
         for i in range(x.shape[0]):
             for j in range(self.deconvolutional_output.shape[0]):
                 for k in range(x.shape[1]):
