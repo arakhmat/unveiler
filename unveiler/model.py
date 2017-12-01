@@ -1,7 +1,7 @@
 import numpy as np
 
-from layers import Layer
-from plot_utils import plot3D
+from unveiler.layers import Layer
+from unveiler.plot_utils import plot, plot3D
 
 class Model:
     def __init__(self, keras_model):
@@ -55,7 +55,8 @@ class Model:
         if frame is not None:
             self.predict(frame, until)
         for layer in self.layers[:until]:
-            plot3D(layer.output, n_cols)
+            print(layer)
+            plot(layer.output, n_cols)
         
 
  

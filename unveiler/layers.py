@@ -1,7 +1,7 @@
 import numpy as np
 import keras.layers
 
-from activations import Activation
+from unveiler.activations import Activation
 
 class Layer:    
     @staticmethod
@@ -27,9 +27,11 @@ class Dense(Layer):
         self.w = keras_layer.get_weights()[0]
         self.b = keras_layer.get_weights()[1]
         self.activation = Activation(keras_layer.activation.__name__)
+        self.output = np.zeros(keras_layer.output_shape[1:], dtype=np.float32)
         
     def feedforward(self, x):
-        return self.activation(x.dot(self.w) + self.b)
+        self.output = self.activation(x.dot(self.w) + self.b)
+        return self.output
 
 class Conv2D(Layer):
     def __init__(self, keras_layer):
@@ -96,12 +98,11 @@ class MaxPooling2D(Layer):
                 for idx_iw in range(0, x.shape[2]//self.pool_size[1]*self.pool_size[1], self.strides[1]):
                     slice_of_input = x[idx_in, idx_ih:idx_ih+self.pool_size[0], idx_iw:idx_iw+self.pool_size[1]]
                     max_value = slice_of_input.max()
-                    max_index = np.where(slice_of_input == max_value)
+                    max_index = np.unravel_index(slice_of_input.argmax(), slice_of_input.shape)
                     idx_oh = idx_ih // self.pool_size[0]
                     idx_ow = idx_iw // self.pool_size[1]
                     self.output[idx_in, idx_oh, idx_ow] = max_value
-                    self.indices[idx_in, idx_oh, idx_ow] = \
-                        np.array([max_index[0][0], max_index[1][0]]) + np.array([idx_ih, idx_iw])
+                    self.indices[idx_in, idx_oh, idx_ow, :] = np.array(max_index) + np.array([idx_ih, idx_iw])
         return self.output
     
     def deconvolve(self, x):        
