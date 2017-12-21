@@ -37,7 +37,7 @@ This uses the same filters are the corresponding conv layer. the only difference
 
 Follow these three steps till you reach the image layer. The pattern that emerges in the image layer is the discriminative pattern that the selected activation is sensitive to.
 
-References:
+##### References:
 * https://arxiv.org/pdf/1311.2901.pdf  
 * https://www.quora.com/How-does-a-deconvolutional-neural-network-work
 
