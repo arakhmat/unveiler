@@ -18,9 +18,6 @@ python test_example_model.py
 python test_minst_model.py
 ```
 ## How does it work
-https://arxiv.org/pdf/1311.2901.pdf  
-https://www.quora.com/How-does-a-deconvolutional-neural-network-work
-
 Decide which filter activation you want to visualize. Pass the image forward through the conv net, 
 up to and including the layer where your chosen activation is.
 
@@ -39,6 +36,9 @@ The inverse of the ReLU function is the ReLU function. It sounds a bit odd, but 
 This uses the same filters are the corresponding conv layer. the only difference is that they are flipped horizontally and vertically.
 
 Follow these three steps till you reach the image layer. The pattern that emerges in the image layer is the discriminative pattern that the selected activation is sensitive to.
+
+https://arxiv.org/pdf/1311.2901.pdf  
+https://www.quora.com/How-does-a-deconvolutional-neural-network-work
 
 ## Supported Layers
 * Conv2D
