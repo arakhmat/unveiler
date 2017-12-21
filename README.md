@@ -29,13 +29,13 @@ Zero out all filter activations (channels) in the last layer except the one you 
 Now go back to image space, but through the deconv net. 
 For this, the authors propose 'inverse' operations of the three common operations seen in conv nets.
 
-Unpooling:   
+##### Unpooling:   
 Max pooling cannot be exactly inverted. So the authors propose to remember the position of the max lower layer activation in 'switch variables'. While going back, the activation from the upper layer is copy-pasted to the position pointed to by the switch variable, and all other lower layer activations are set to zero. Note that different images will produce different patterns of activations, so the values of the switch variables will change according to image.
     
-ReLU:   
+##### ReLU:   
 The inverse of the ReLU function is the ReLU function. It sounds a bit odd, but the authors' argument is that since convolution is applied to rectified activations in the  forward pass, deconvolution should also be applied to rectified reconstructions in the backward pass.
     
-Deconvolution:  
+##### Deconvolution:  
 This uses the same filters are the corresponding conv layer. the only difference is that they are flipped horizontally and vertically.
 
 Follow these three steps till you reach the image layer. The pattern that emerges in the image layer is the discriminative pattern that the selected activation is sensitive to.
