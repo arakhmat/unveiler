@@ -34,23 +34,23 @@ def fmeasure(y_true, y_pred):
     return fbeta_score(y_true, y_pred, beta=1)
 
 if __name__ == "__main__":
-    
-    keras_model = load_model('example_model.h5', 
+
+    keras_model = load_model('example_model.h5',
          {'fmeasure': fmeasure, 'recall': recall, 'precision': precision})
-    
+
     with h5py.File('example_data.h5', 'r') as f:
         frames = f['frames'][:]
         labels = f['labels'][:]
-    
+
     model = Model(keras_model)
- 
+
     start, offset = 0, 1
     for frame in frames[start:start+offset]:
         print('Feeforwarding through the network')
         model.predict(frame)
-#       
+#
         print('Visualizing all activations')
         model.visualize(until=20, n_cols=3)
-        
+
         print('Deconvolving first layer')
         model.deconvolve(index=1)
