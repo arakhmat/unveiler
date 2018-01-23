@@ -22,6 +22,8 @@ class Layer:
             return BatchNormalization(keras_layer), 'other'
         elif isinstance(keras_layer, keras.layers.Dropout):
             return Dropout(keras_layer), 'other'
+        elif isinstance(keras_layer, keras.engine.topology.InputLayer):
+            return None, None
         else:
             raise ValueError('Layer %s is not supported' % str(type(keras_layer)))
 

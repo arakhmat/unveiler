@@ -10,12 +10,13 @@ class Model:
         self.conv_layers_indices = [] # Indices of Conv2D layers in deconvolvable_layers
         for keras_layer in keras_model.layers:
             layer, layer_type =  Layer.factory(keras_layer)
-            self.layers.append(layer)
-            if layer_type == 'conv':
-                self.deconvolvable_layers.append(layer)
-                self.conv_layers_indices.append(len(self.deconvolvable_layers)-1)
-            elif layer_type == 'maxpool':
-                self.deconvolvable_layers.append(layer)
+            if layer is not None:
+                self.layers.append(layer)
+                if layer_type == 'conv':
+                    self.deconvolvable_layers.append(layer)
+                    self.conv_layers_indices.append(len(self.deconvolvable_layers)-1)
+                elif layer_type == 'maxpool':
+                    self.deconvolvable_layers.append(layer)
 
     def predict(self, x, until=None):
         plot(x)
