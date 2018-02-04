@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 
 def plot2D(array):
     plt.figure(0)
-    plt.imshow(np.repeat(array, repeats=5, axis=0))
+    plt.imshow(np.repeat(array, repeats=5, axis=0), cmap='binary')
     plt.show()
 
 def plot3D(array, n_cols=3):
@@ -15,12 +15,12 @@ def plot3D(array, n_cols=3):
         for j in range(n_cols):
             if i*n_cols+j < n:
                 plt.subplot2grid((n_rows, n_cols), (i, j))
-                plt.imshow(array[i*n_cols+j].reshape((h, w)))
+                plt.imshow(array[i*n_cols+j].reshape((h, w)), cmap='binary')
     plt.show()
 
 def plot(array, n_cols=3):
 
     if len(array.shape) == 2:
         plot2D(array)
-    elif len(array.shape) ==3:
+    elif len(array.shape) == 3:
         plot3D(array, n_cols)
