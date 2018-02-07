@@ -27,7 +27,7 @@ class Model:
         return x
 
     # Deconvolve convolutional layer at index I
-    def deconvolve(self, frame=None, index=0):
+    def deconvolve(self, frame=None, index=0, cmap='viridis'):
         if frame is not None:
             self.predict(frame)
 
@@ -49,15 +49,14 @@ class Model:
                 for layer in consequent_layers:
                     x = layer.deconvolve(x=x)
 
-                plot3D(x)
-                print('----------------------------------------------------------------------------------')
+                plot3D(x, cmap=cmap)
 
     # Visualize all the activations upto layer N
-    def visualize(self, frame=None, until=1, n_cols=3):
+    def visualize(self, frame=None, until=1, n_cols=3, cmap='viridis'):
         if frame is not None:
             self.predict(frame, until)
         for layer in self.layers[:until]:
             print(layer.name)
-            plot(layer.output, n_cols)
+            plot(layer.output, n_cols, cmap=cmap)
 
 
